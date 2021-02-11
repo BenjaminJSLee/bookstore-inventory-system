@@ -15,6 +15,8 @@ CREATE TABLE books (
   author VARCHAR(255) NOT NULL,
   date_published DATE NOT NULL,
   publisher VARCHAR(255) NOT NULL,
+  price INTEGER NOT NULL DEFAULT 0 CHECK (price >= 0), -- price is in cents
+  status VARCHAR(255) NOT NULL DEFAULT "out of stock",
   editor VARCHAR(255),
   genre VARCHAR(255),
   description TEXT
@@ -32,7 +34,5 @@ CREATE TABLE bookstore_books (
   id SERIAL PRIMARY KEY NOT NULL,
   bookstore_id INTEGER REFERENCES bookstores(id) ON DELETE CASCADE,
   book_id INTEGER REFERENCES books(id) ON DELETE CASCADE,
-  price INTEGER NOT NULL DEFAULT 0 CHECK (price >= 0), -- price is in cents
-  stock INTEGER NOT NULL DEFAULT 0 CHECK (stock >= 0),
-  status VARCHAR(255) NOT NULL DEFAULT "out of stock",
+  stock INTEGER NOT NULL DEFAULT 0 CHECK (stock >= 0)
 );
