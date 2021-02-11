@@ -9,8 +9,8 @@ VALUES
 
 INSERT INTO bookstores (name, manager, date_opened, location)
 VALUES 
-  ("", "Jane Doe", '2005-12-25', "1234 Fake St, Vancouver, BC, Canada"),
-  ("", "John Deer", '2010-10-31', "4321 Unknown Rd, Toronto, Ontario, Canada");
+  ("Indigo", "Jane Doe", '2005-12-25', "1234 Fake St, Vancouver, BC, Canada"),
+  ("Indigo", "John Deer", '2010-10-31', "4321 Unknown Rd, Toronto, Ontario, Canada");
 
 INSERT INTO bookstore_books (bookstore_id, book_id, stock)
 VALUES 
