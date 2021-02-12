@@ -3,22 +3,13 @@ require('dotenv').config();
 
 // Web server config
 const PORT       = process.env.PORT || 8080;
-const ENV        = process.env.ENV || "development";
 const express    = require("express");
 const cookieSession = require('cookie-session');
 const bodyParser = require("body-parser");
 const app        = express();
 const morgan     = require('morgan');
 const cors       = require("cors");
-const knex = require('knex')({
-  client: 'pg',
-  connection: {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-  }
-});
+const knex = require('./knex/knex.js');
 
 app.use(cors());
 app.use(cookieSession({
