@@ -8,6 +8,7 @@ const express    = require("express");
 const cookieSession = require('cookie-session');
 const bodyParser = require("body-parser");
 const app        = express();
+const morgan     = require('morgan');
 const cors       = require("cors");
 const knex = require('knex')({
   client: 'pg',
@@ -24,6 +25,7 @@ app.use(cookieSession({
   name: 'session',
   keys: ["lilduck"],
 }));
+app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
