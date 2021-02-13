@@ -24,7 +24,10 @@ app.use(bodyParser.json());
 
 // import routes and middleware below
 app.use('/books', require('./routes/books')(knex));
-app.use('/bookstores', require('./routes/bookstores')(knex));
+app.use('/bookstores', 
+  require('./routes/bookstores')(knex),
+  require('./routes/bookstore_books')(knex)
+);
 
 // root of api server
 app.get("/", (req, res) => {
