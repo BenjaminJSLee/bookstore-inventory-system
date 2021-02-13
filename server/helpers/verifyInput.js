@@ -10,7 +10,7 @@ const verifyBook = (book) => {
     genre,
     description,
   } = book;
-  const isNotNull = (
+  const anyNull = (
     title === null || 
     author === null || 
     date_published === null || 
@@ -18,9 +18,25 @@ const verifyBook = (book) => {
     price === null || 
     status === null
   );
-  return isNotNull;
+  return !anyNull;
+};
+
+const verifyBookstore = (bookstore) => {
+  const {
+    name,
+    manager,
+    date_opened,
+    location,
+  } = bookstore;
+  const anyNull = (
+    name === null || 
+    manager === null || 
+    date_opened === null
+  );
+  return !anyNull;
 };
 
 module.exports = {
   verifyBook,
+  verifyBookstore,
 };
