@@ -16,17 +16,50 @@ module.exports = (knex) => {
   });
   
   router.post("/:id/books", (req, res) => {
-    const book = req.body;
-    console.log(book);
+    const { stock, book_id } = req.body;
     knex('bookstore_books')
       .insert({ 
         "bookstore_id":  req.params.id,
-        ...book,
+        book_id,
+        stock,
       })
       .onConflict(["bookstore_id", "book_id"])
       .ignore()
-      .then((books) => {
-        res.json(books);
+      .then((book) => {
+        res.json(book);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+  });
+  
+  router.put("/:bookstore_id/books/:book_id", (req, res) => {
+    const { stock } = req.body;
+    knex('bookstore_books')
+      .where({
+        "bookstore_id":  req.params.bookstore_id,
+        "book_id":  req.params.book_id,
+      })
+      .update({ 
+        stock,
+      })
+      .then((book) => {
+        res.json(book);
+    })
+    .catch((err) => {
+      res.status(500).json(err);
+    });
+  });
+
+  router.delete("/:bookstore_id/books/:book_id", (req, res) => {
+    knex('bookstore_books')
+      .where({
+        "bookstore_id":  req.params.bookstore_id,
+        "book_id":  req.params.book_id,
+      })
+      .del()
+      .then((book) => {
+        res.json(book);
     })
     .catch((err) => {
       res.status(500).json(err);
