@@ -3,19 +3,23 @@ const router = express.Router();
 
 module.exports = (knex) => {
 
-  router.get("/books", (req, res) => {
-
+  router.get("/", (req, res) => {
+    knex('books').then((books) => {
+      res.json(books);
+    }).catch((err) => {
+      res.json(err);
+    });
   });
   
-  router.post("/books", (req, res) => {
+  router.post("/", (req, res) => {
 
   });
 
-  router.put("/books/:id", (req, res) => {
+  router.put("/:id", (req, res) => {
 
   });
 
-  router.delete("/books/:id", (req, res) => {
+  router.delete("/:id", (req, res) => {
 
   });
 
