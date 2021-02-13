@@ -4,6 +4,7 @@ exports.up = function(knex) {
     table.increments();
     table.integer('bookstore_id').references('id').inTable('bookstores');
     table.integer('book_id').references('id').inTable('books');
+    table.unique(['bookstore_id','book_id']);
     table.integer('stock').notNullable();
   });
 };
