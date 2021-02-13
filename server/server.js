@@ -23,6 +23,7 @@ app.use(bodyParser.json());
 // app.use(authenticate);
 
 // import routes and middleware below
+app.use(require('./routes/books')(knex));
 
 // root of api server
 app.get("/", (req, res) => {
