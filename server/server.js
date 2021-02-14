@@ -33,7 +33,7 @@ app.use('/bookstores', authenticate,
   require('./routes/bookstore_books')(knex)
 );
 
-periodicUpdate(5000, true, updateInventory(knex));
+periodicUpdate(60000, true, updateInventory(knex));
 
 // root of api server
 app.get("/", (req, res) => {

@@ -2,7 +2,6 @@
 const periodicUpdate = (delay, wait, cb) => {
   if (wait) {
     let stop = () => false;
-    const clear = () => stop();
     
     const update = () => {
       const timeout = setTimeout(() => {
@@ -13,6 +12,7 @@ const periodicUpdate = (delay, wait, cb) => {
     };
     update();
     
+    const clear = () => stop();
     return clear;
   } else {
     const interval = setInterval(() => {
