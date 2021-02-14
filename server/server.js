@@ -33,6 +33,7 @@ app.use('/bookstores', authenticate,
   require('./routes/bookstore_books')(knex)
 );
 
+// script to update the status of books every minute
 periodicUpdate(60000, true, updateInventory(knex));
 
 // root of api server
