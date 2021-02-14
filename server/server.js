@@ -10,6 +10,7 @@ const app        = express();
 const morgan     = require('morgan');
 const cors       = require("cors");
 const knex = require('./knex/knex.js');
+const { authenticate } = require('./middleware/authenticate.js');
 
 app.use(cors());
 app.use(cookieSession({
@@ -20,11 +21,9 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// app.use(authenticate);
-
 // import routes and middleware below
-app.use('/books', require('./routes/books')(knex));
-app.use('/bookstores', 
+app.use('/books', authenticate, require('./routes/books')(knex));
+app.use('/bookstores', authenticate,
   require('./routes/bookstores')(knex),
   require('./routes/bookstore_books')(knex)
 );
@@ -32,6 +31,16 @@ app.use('/bookstores',
 // root of api server
 app.get("/", (req, res) => {
   res.json({ "hello": "world" });
+});
+
+app.get("/login/:id", (req, res) => {
+  req.session.user = true;
+  res.json({});
+});
+
+app.get("/logout", (req, res) => {
+  req.session = null;
+  res.json({});
 });
 
 app.listen(PORT, () => {
