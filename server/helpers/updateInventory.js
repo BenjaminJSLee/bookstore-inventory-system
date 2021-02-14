@@ -1,6 +1,8 @@
 
-const updateInventory = () => {
-
+const updateInventory = (knex) => {
+  return () => {
+    console.log('updating...');
+  };
 };
 
 module.exports = {

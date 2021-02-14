@@ -10,8 +10,13 @@ const app        = express();
 const morgan     = require('morgan');
 const cors       = require("cors");
 const knex = require('./knex/knex.js');
-const { authenticate } = require('./middleware/authenticate.js');
 
+// helper functions
+const { authenticate } = require('./middleware/authenticate.js');
+const { periodicUpdate } = require('./helpers/periodicUpdate');
+const { updateInventory } = require('./helpers/updateInventory.js');
+
+// imported middleware
 app.use(cors());
 app.use(cookieSession({
   name: 'session',
@@ -21,12 +26,14 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// import routes and middleware below
+// imported custom routes and middleware
 app.use('/books', authenticate, require('./routes/books')(knex));
 app.use('/bookstores', authenticate,
   require('./routes/bookstores')(knex),
   require('./routes/bookstore_books')(knex)
 );
+
+periodicUpdate(5000, true, updateInventory(knex));
 
 // root of api server
 app.get("/", (req, res) => {

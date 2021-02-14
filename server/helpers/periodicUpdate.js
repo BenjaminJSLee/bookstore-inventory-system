@@ -1,14 +1,15 @@
 
 const periodicUpdate = (delay, wait, cb) => {
   if (wait) {
-    let stop = false;
-    const clear = () => stop = true;
-
+    let stop = () => false;
+    const clear = () => stop();
+    
     const update = () => {
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         cb();
-        if (!stop) update();
+        update();
       }, delay);
+      stop = () => clearTimeout(timeout);
     };
     update();
     
