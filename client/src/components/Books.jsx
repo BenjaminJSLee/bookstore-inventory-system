@@ -20,34 +20,35 @@ const Books = (props) => {
     const date = formatDate(book.date_published);
     console.log(price);
     return (
-      <tr key={book.id}>
-        <td>{book.title}</td>
-        <td>{book.status}</td>
-        <td>{book.author}</td>
-        <td>{date}</td>
-        <td>{book.publisher}</td>
-        <td>${price}</td>
-      </tr>
+      <div className={`book${book.status === "out of stock" ? " unavailable" : ""}`} key={book.id}>
+        <header>
+          <span>{book.title.toUpperCase()}</span>
+          <span>{book.status.toUpperCase()}</span>
+        </header>
+        <div>
+          <span>By:</span>
+          <span>{book.author}</span>
+        </div>
+        <div>
+          <span>Price:</span>
+          <span>${price}</span>
+        </div>
+        <div>
+          <span>Total Stock:</span>
+          <span>{book.total_stock}</span>
+        </div>
+        <footer>
+          <span className="bold">Publisher: </span>
+          <span>{book.publisher}</span>
+          <span>{date}</span>
+        </footer>
+      </div>
     )
   });
 
   return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Author</th>
-            <th>Date Published</th>
-            <th>Publisher</th>
-            <th>Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {books}
-        </tbody>
-      </table>
+    <div className="books">
+      {books}
     </div>
   );
 };

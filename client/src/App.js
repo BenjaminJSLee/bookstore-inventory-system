@@ -44,9 +44,11 @@ const App = () => {
   }, []);
   return (
     <div className="app">
-      <Books 
-        books={state.books}
-      />
+      <main className="content">
+        <Books 
+          books={state.books}
+        />
+      </main>
     </div>
   );
 }
