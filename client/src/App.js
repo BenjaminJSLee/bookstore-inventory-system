@@ -18,9 +18,9 @@ const App = () => {
         const booksHash = {};
         for (const book of bookstoreBooks) {
           if (booksHash[book.bookstore_id]) {
-            booksHash[book.bookstore_id].push(book.book_id);
+            booksHash[`${book.bookstore_id}`].push(book.book_id);
           } else {
-            booksHash[book.bookstore_id] = [book.book_id];
+            booksHash[`${book.bookstore_id}`] = [book.book_id];
           }
         }
         setState({
@@ -28,16 +28,16 @@ const App = () => {
           bookstores: bookstores.map((store) => {
             return {
               ...store,
-              books: booksHash[store.id],
+              books: booksHash[`${store.id}`],
             };
           })
         });
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   });
-
+  console.log(state);
   return (
     <div className="app">
     </div>
