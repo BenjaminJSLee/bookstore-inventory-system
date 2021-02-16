@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
+import Books from './components/Books';
 
 const App = () => {
   const [state, setState] = useState({
@@ -20,10 +21,11 @@ const App = () => {
         const bookstoreBooks = res[2].data;
         const booksHash = {};
         for (const book of bookstoreBooks) {
+          const bookStock = { id: book.book_id, stock: book.stock }
           if (booksHash[book.bookstore_id]) {
-            booksHash[`${book.bookstore_id}`].push(book.book_id);
+            booksHash[`${book.bookstore_id}`].push(bookStock);
           } else {
-            booksHash[`${book.bookstore_id}`] = [book.book_id];
+            booksHash[`${book.bookstore_id}`] = [bookStock];
           }
         }
         setState({
@@ -42,6 +44,9 @@ const App = () => {
   }, []);
   return (
     <div className="app">
+      <Books 
+        books={state.books}
+      />
     </div>
   );
 }
