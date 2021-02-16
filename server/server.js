@@ -21,20 +21,21 @@ app.use(cors());
 app.use(cookieSession({
   name: 'session',
   keys: ["lilduck"],
+  maxAge: 1000 * 60 * 60 * 24, // 24 hour cookie age
 }));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // imported custom routes and middleware
-app.use('/books', authenticate, require('./routes/books')(knex));
-app.use('/bookstores', authenticate,
+app.use('/api/books', authenticate, require('./routes/books')(knex));
+app.use('/api/bookstores', authenticate,
   require('./routes/bookstores')(knex),
   require('./routes/bookstore_books')(knex)
 );
 
 // script to update the status of books every minute
-periodicUpdate(60000, true, updateInventory(knex));
+periodicUpdate(1000 * 60, true, updateInventory(knex));
 
 // root of api server
 app.get("/", (req, res) => {
