@@ -1,8 +1,21 @@
 const express = require('express');
 const router = express.Router();
 
-module.exports = (knex) => {
 
+module.exports = (knex) => {
+  
+  const updateStatus = (book) => {
+    if (book.stock !== 0) {
+      return knex('books')
+        .where({ id: book.book_id, status: "out of stock" })
+        .update({ status: "available" })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
+  
+  // Get all books from all bookstores
   router.get("/books", (req, res) => {
     knex('bookstore_books')
       .then((bookstore_books) => {
@@ -13,6 +26,7 @@ module.exports = (knex) => {
       });
   });
 
+  // Get all books at a specific bookstore
   router.get("/:id/books", (req, res) => {
     knex('bookstore_books')
       .join('books', 'books.id', '=', 'bookstore_books.book_id')
@@ -25,6 +39,7 @@ module.exports = (knex) => {
       });
   });
   
+  // Add book to bookstore
   router.post("/:id/books", (req, res) => {
     const { stock, book_id } = req.body;
     knex('bookstore_books')
@@ -35,14 +50,17 @@ module.exports = (knex) => {
       })
       .onConflict(["bookstore_id", "book_id"])
       .ignore()
-      .then((book) => {
-        res.json(book);
+      .then((data) => {
+        const book = { stock, book_id };
+        updateStatus(book);
+        return res.json(data);
       })
       .catch((err) => {
         res.status(500).json(err);
       });
   });
   
+  // Update book stock
   router.put("/:bookstore_id/books/:book_id", (req, res) => {
     const { stock } = req.body;
     knex('bookstore_books')
@@ -52,15 +70,18 @@ module.exports = (knex) => {
       })
       .update({ 
         stock,
-      })
-      .then((book) => {
-        res.json(book);
+      }, ['*'])
+      .then((data) => {
+        const book = data[0];
+        updateStatus(book);
+        return res.json(data);
       })
       .catch((err) => {
         res.status(500).json(err);
       });
   });
 
+  // Remove a book from a bookstore
   router.delete("/:bookstore_id/books/:book_id", (req, res) => {
     knex('bookstore_books')
       .where({
