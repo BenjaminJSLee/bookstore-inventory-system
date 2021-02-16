@@ -3,16 +3,26 @@ const router = express.Router();
 
 module.exports = (knex) => {
 
+  router.get("/books", (req, res) => {
+    knex('bookstore_books')
+      .then((bookstore_books) => {
+        res.json(bookstore_books);
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
+  });
+
   router.get("/:id/books", (req, res) => {
     knex('bookstore_books')
       .join('books', 'books.id', '=', 'bookstore_books.book_id')
       .where({ "bookstore_id":  req.params.id })
       .then((books) => {
         res.json(books);
-    })
-    .catch((err) => {
-      res.status(500).json(err);
-    });
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
   });
   
   router.post("/:id/books", (req, res) => {
@@ -27,10 +37,10 @@ module.exports = (knex) => {
       .ignore()
       .then((book) => {
         res.json(book);
-    })
-    .catch((err) => {
-      res.status(500).json(err);
-    });
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
   });
   
   router.put("/:bookstore_id/books/:book_id", (req, res) => {
@@ -45,10 +55,10 @@ module.exports = (knex) => {
       })
       .then((book) => {
         res.json(book);
-    })
-    .catch((err) => {
-      res.status(500).json(err);
-    });
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
   });
 
   router.delete("/:bookstore_id/books/:book_id", (req, res) => {
@@ -60,10 +70,10 @@ module.exports = (knex) => {
       .del()
       .then((book) => {
         res.json(book);
-    })
-    .catch((err) => {
-      res.status(500).json(err);
-    });
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
   });
 
   return router;
