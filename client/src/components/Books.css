@@ -11,13 +11,17 @@
   margin-bottom: 12px;
 }
 
+.book:hover {
+  background-color: #77777722;
+  border-color: #000000cc;
+}
+
 .unavailable {
   background-color: #ff7070;
 }
 
-.book:hover {
-  background-color: #77777722;
-  border-color: #000000cc;
+.unavailable:hover {
+  background-color: #ff7070aa;
 }
 
 .book:last-child {
