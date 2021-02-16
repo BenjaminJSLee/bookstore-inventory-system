@@ -32,6 +32,14 @@ const Books = (props) => {
           <span>Price:</span>
           <span>${price}</span>
         </div>
+        { book.stock !== undefined && 
+          (
+            <div>
+              <span>Local Stock:</span>
+              <span>{book.stock}</span>
+            </div>
+          )
+        }
         <div>
           <span>Total Stock:</span>
           <span>{book.total_stock}</span>
