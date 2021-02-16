@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
-import Bookstore from './components/Bookstore';
+import Bookstores from './components/Bookstores';
 
 const App = () => {
   const [state, setState] = useState({
@@ -56,8 +56,8 @@ const App = () => {
   return (
     <div className="app">
       <main className="content">
-        <Bookstore
-          bookstore={state.bookstores[0] || {}}
+        <Bookstores
+          bookstores={state.bookstores}
           books={state.books}
         />
       </main>
