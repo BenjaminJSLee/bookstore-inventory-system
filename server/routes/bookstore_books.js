@@ -3,6 +3,7 @@ const router = express.Router();
 
 module.exports = (knex) => {
 
+  // Get all books from all bookstores
   router.get("/books", (req, res) => {
     knex('bookstore_books')
       .then((bookstore_books) => {
@@ -13,6 +14,7 @@ module.exports = (knex) => {
       });
   });
 
+  // Get all books at a specific bookstore
   router.get("/:id/books", (req, res) => {
     knex('bookstore_books')
       .join('books', 'books.id', '=', 'bookstore_books.book_id')
@@ -25,6 +27,7 @@ module.exports = (knex) => {
       });
   });
   
+  // Add book to bookstore
   router.post("/:id/books", (req, res) => {
     const { stock, book_id } = req.body;
     knex('bookstore_books')
@@ -43,6 +46,7 @@ module.exports = (knex) => {
       });
   });
   
+  // Update book stock
   router.put("/:bookstore_id/books/:book_id", (req, res) => {
     const { stock } = req.body;
     knex('bookstore_books')
@@ -52,15 +56,22 @@ module.exports = (knex) => {
       })
       .update({ 
         stock,
-      })
-      .then((book) => {
-        res.json(book);
+      }, ['*'])
+      .then((data) => {
+        const book = data[0];
+        if (book.stock !== 0) {
+          knex('books')
+            .where({ id: book.book_id })
+            .update({ status: "available" })
+        }
+        return res.json(data);
       })
       .catch((err) => {
         res.status(500).json(err);
       });
   });
 
+  // Remove a book from a bookstore
   router.delete("/:bookstore_id/books/:book_id", (req, res) => {
     knex('bookstore_books')
       .where({

@@ -23,8 +23,8 @@ app.use(bodyParser.json());
 // app.use(authenticate);
 
 // import routes and middleware below
-app.use('/books', require('./routes/books')(knex));
-app.use('/bookstores', 
+app.use('/api/books', require('./routes/books')(knex));
+app.use('/api/bookstores', 
   require('./routes/bookstores')(knex),
   require('./routes/bookstore_books')(knex)
 );
