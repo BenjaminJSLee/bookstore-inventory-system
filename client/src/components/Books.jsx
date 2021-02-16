@@ -18,7 +18,6 @@ const Books = (props) => {
   const books = props.books.map((book) => {
     const price = formatCents(book.price);
     const date = formatDate(book.date_published);
-    console.log(price);
     return (
       <div className={`book${book.status === "out of stock" ? " unavailable" : ""}`} key={book.id}>
         <header>
@@ -33,6 +32,14 @@ const Books = (props) => {
           <span>Price:</span>
           <span>${price}</span>
         </div>
+        { book.stock !== undefined && 
+          (
+            <div>
+              <span>Local Stock:</span>
+              <span>{book.stock}</span>
+            </div>
+          )
+        }
         <div>
           <span>Total Stock:</span>
           <span>{book.total_stock}</span>
