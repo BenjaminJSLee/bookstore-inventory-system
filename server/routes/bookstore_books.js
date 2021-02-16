@@ -1,8 +1,20 @@
 const express = require('express');
 const router = express.Router();
 
-module.exports = (knex) => {
 
+module.exports = (knex) => {
+  
+  const updateStatus = (book) => {
+    if (book.stock !== 0) {
+      return knex('books')
+        .where({ id: book.book_id, status: "out of stock" })
+        .update({ status: "available" })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  };
+  
   // Get all books from all bookstores
   router.get("/books", (req, res) => {
     knex('bookstore_books')
@@ -38,8 +50,10 @@ module.exports = (knex) => {
       })
       .onConflict(["bookstore_id", "book_id"])
       .ignore()
-      .then((book) => {
-        res.json(book);
+      .then((data) => {
+        const book = { stock, book_id };
+        updateStatus(book);
+        return res.json(data);
       })
       .catch((err) => {
         res.status(500).json(err);
@@ -59,11 +73,7 @@ module.exports = (knex) => {
       }, ['*'])
       .then((data) => {
         const book = data[0];
-        if (book.stock !== 0) {
-          knex('books')
-            .where({ id: book.book_id })
-            .update({ status: "available" })
-        }
+        updateStatus(book);
         return res.json(data);
       })
       .catch((err) => {
