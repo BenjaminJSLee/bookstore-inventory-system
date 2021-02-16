@@ -36,3 +36,47 @@ If you'd like to locally run a copy of this project, please follow the instructi
 
 ## Endpoints
 
+### Main Endpoints  
+These are the basic endpoints required to have the API be customisable.
+
+***GET*** `/api/bookstore/books`  
+    Get every single bookstore's books (returning ids only).  
+    
+***GET*** `/api/bookstore/:id/books`  
+    Get the books of a singular bookstore.  
+    
+***POST*** `/api/bookstore/:id/books`  
+    Add a book to a bookstore (using ids).  
+    
+***PUT*** `/api/bookstore/:bookstore_id/books/:book_id`  
+    Edit the stock of a book in a bookstore.  
+    
+***DELETE*** `/api/bookstore/:bookstore_id/books/:book_id`  
+    Delete a book from a bookstore.  
+
+### Additional Endpoints  
+These endpoints are not required, but created anyway incase of use for non-seeded editing.
+
+***GET*** `/api/books`
+    Get all books.  
+    
+***POST*** `/api/books`
+    Create a new book.  
+    
+***PUT*** `/api/books/:id`
+    Edit an existing book.  
+    
+***DELETE*** `/api/books/:id`
+    Delete an existing book.  
+
+***GET*** `/api/bookstores`
+    Get all bookstores. 
+    
+***POST*** `/api/bookstores`
+    Create a new bookstore.  
+    
+***PUT*** `/api/bookstores/:id`
+    Edit an existing bookstore. 
+    
+***DELETE*** `/api/bookstores/:id`
+    Delete an existing bookstore.  
