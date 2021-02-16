@@ -9,12 +9,15 @@ const App = () => {
   });
 
   useEffect(() => {
-    Promise.all(
+    Promise.all([
       axios.get('/api/books'),
       axios.get('/api/bookstores'),
       axios.get('/api/bookstores/books'),
-    ).then((data) => {
-        const [books, bookstores, bookstoreBooks] = data;
+    ])
+      .then((res) => {
+        const books = res[0].data;
+        const bookstores = res[1].data;
+        const bookstoreBooks = res[2].data;
         const booksHash = {};
         for (const book of bookstoreBooks) {
           if (booksHash[book.bookstore_id]) {
@@ -36,8 +39,7 @@ const App = () => {
       .catch((err) => {
         console.error(err);
       });
-  });
-  console.log(state);
+  }, []);
   return (
     <div className="app">
     </div>
