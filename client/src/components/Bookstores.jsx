@@ -15,6 +15,7 @@ const Bookstores = (props) => {
     });
     return (
       <Bookstore
+        key={store.id}
         bookstore={store}
         books={books} 
       />

@@ -2,12 +2,17 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
 import Bookstores from './components/Bookstores';
+import Books from './components/Books';
+
+const BOOKS = "BOOKS";
+const BOOKSTORES = "BOOKSTORES";
 
 const App = () => {
   const [state, setState] = useState({
     books: [],
     bookstores: [],
   });
+  const [view, setView] = useState(BOOKS);
 
   useEffect(() => {
     Promise.all([
@@ -56,10 +61,27 @@ const App = () => {
   return (
     <div className="app">
       <main className="content">
-        <Bookstores
-          bookstores={state.bookstores}
-          books={state.books}
-        />
+        <nav className="tab-bar">
+          <button className={`tab${ view === BOOKS ? " selected" : ""}`}
+            onClick={() => setView(BOOKS)}
+          >BOOKS</button>
+          <button className={`tab${ view === BOOKSTORES ? " selected" : ""}`}
+            onClick={() => setView(BOOKSTORES)}
+          >BOOKSTORES</button>
+        </nav>
+        <div className="container">
+          { view === BOOKSTORES &&
+            <Bookstores
+              bookstores={state.bookstores}
+              books={state.books}
+            />
+          }
+          { view === BOOKS &&
+            <Books 
+              books={state.books}
+            />
+          }
+        </div>
       </main>
     </div>
   );
