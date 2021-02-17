@@ -10,8 +10,7 @@ const app        = express();
 const morgan     = require('morgan');
 const cors       = require("cors");
 const knex = require('./knex/knex.js');
-
-// helper functions
+const bcrypt = require('bcrypt');
 const { authenticate } = require('./middleware/authenticate.js');
 const { periodicUpdate } = require('./helpers/periodicUpdate');
 const { updateInventory } = require('./helpers/updateInventory.js');
@@ -42,14 +41,27 @@ app.get("/", (req, res) => {
   res.json({ "hello": "world" });
 });
 
-app.get("/login/:id", (req, res) => {
-  req.session.user = true;
-  res.json({});
+// Login route
+app.post("/login/:id", (req, res) => {
+  knex('users').where({ id: req.params.id })
+    .then((data) => {
+      const user = data[0];
+      if (user && !bcrypt.compareSync(user.password, req.body.password,)) {
+        req.session.user = { id: user.id, username: user.username };
+
+        return res.json({ id: user.id, username: user.username });
+      }
+      return res.status(401).json({ status: 401, msg: "Username and password mismatch"});
+    })
+    .catch((err) => {
+      res.json(err);
+    });
 });
 
-app.get("/logout", (req, res) => {
+// Logout route
+app.delete("/logout", (req, res) => {
   req.session = null;
-  res.json({});
+  res.json({ status: 200, msg: "success" });
 });
 
 app.listen(PORT, () => {
