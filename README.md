@@ -27,15 +27,19 @@ If you'd like to locally run a copy of this project, please follow the instructi
   by typing the following command into the terminal: `npm i knex -g`  
   
   3. To connect a database, create a new `.env` file using the `.env.example` file as a template. You can fill out all DB fields or just the DB_URL field.
-  The database must use postgreSQL.  
+  The database must use postgreSQL. Make sure to include the CLIENT_URL inside the .env file if you're using the associated client-app.
   
   4. Using the terminal or command line, type `knex migrate:latest` to create the database tables, and `knex seed:run` to seed the database. 
   You can type `knex migrate:rollback` to rollback the latest migration.  
   
   5. After the database is set up, you can type `npm start` in the root of the project to run the server.
 
-## Endpoints
+  6. (Optional) If you'd like to run the client as well, make sure the REACT_APP_SERVER_URL is set in the client .env file, and the CLIENT_URL is set in the server .env file.
 
+## Endpoints
+  
+I would recommend using Postman to test the routes. The client-side provides an acceptable interface to view the data, but cannot currently edit any data.  
+  
 ### Main Endpoints  
 These are the basic endpoints required to have the API be customisable.
 
@@ -53,6 +57,12 @@ These are the basic endpoints required to have the API be customisable.
     
 ***DELETE*** `/api/bookstore/:bookstore_id/books/:book_id`  
     Delete a book from a bookstore.  
+    
+***POST*** `/login/:id`  
+    Login to an account with ":id". Requires a password in the form body (req.body.password).
+    
+***DELETE*** `/logout`  
+    Logout from your currently logged in account.
 
 ### Additional Endpoints  
 These endpoints are not required, but created anyway incase of use for non-seeded editing.
