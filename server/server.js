@@ -44,9 +44,8 @@ app.post("/login/:id", (req, res) => {
   knex('users').where({ id: req.params.id })
     .then((data) => {
       const user = data[0];
-      if (user && !bcrypt.compareSync(user.password, req.body.password,)) {
+      if (user && bcrypt.compareSync(req.body.password, user.password)) {
         req.session.user = { id: user.id, username: user.username };
-
         return res.json({ id: user.id, username: user.username });
       }
       return res.status(401).json({ status: 401, msg: "Username and password mismatch"});

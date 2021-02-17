@@ -15,7 +15,10 @@ const App = () => {
   const [view, setView] = useState(BOOKS);
 
   useEffect(() => {
-    axios.post('/login/1', { password: 'admin' })
+    axios.delete('/logout')
+      .then(() => {
+        return axios.post('/login/1', { password: 'admin' })
+      })
       .then(() => {
         return Promise.all([
           axios.get('/api/books'),
