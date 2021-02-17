@@ -39,11 +39,6 @@ app.use('/api/bookstores', authenticate,
 // script to update the status of books every minute
 periodicUpdate(1000 * 60, true, updateInventory(knex));
 
-// root of api server
-app.get("/", (req, res) => {
-  res.json({ "hello": "world" });
-});
-
 // Login route
 app.post("/login/:id", (req, res) => {
   knex('users').where({ id: req.params.id })
