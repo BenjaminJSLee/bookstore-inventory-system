@@ -51,13 +51,13 @@ const App = () => {
               ...book,
               total_stock: booksStockHash[`${book.id}`] || 0,
             };
-          }),
+          }) || [],
           bookstores: bookstores.map((store) => {
             return {
               ...store,
-              books: booksHash[`${store.id}`],
+              books: booksHash[`${store.id}`] || [],
             };
-          })
+          }) || [],
         });
       })
       .catch((err) => {
