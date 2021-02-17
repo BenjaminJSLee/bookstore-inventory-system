@@ -15,11 +15,14 @@ const App = () => {
   const [view, setView] = useState(BOOKS);
 
   useEffect(() => {
-    Promise.all([
-      axios.get('/api/books'),
-      axios.get('/api/bookstores'),
-      axios.get('/api/bookstores/books'),
-    ])
+    axios.post('/login/1', { password: 'admin' })
+      .then(() => {
+        return Promise.all([
+          axios.get('/api/books'),
+          axios.get('/api/bookstores'),
+          axios.get('/api/bookstores/books'),
+        ]);
+      })
       .then((res) => {
         const books = res[0].data;
         const bookstores = res[1].data;
